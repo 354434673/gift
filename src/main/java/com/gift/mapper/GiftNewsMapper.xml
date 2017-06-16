@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gift.mapper.GiftNewsMapper" >
+  <resultMap id="BaseResultMap" type="com.gift.vo.GiftNews" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="BIGINT" />
+    <result column="updated" property="updated" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="BIGINT" />
+    <result column="auther" property="auther" jdbcType="VARCHAR" />
+    <result column="autherId" property="autherid" jdbcType="VARCHAR" />
+    <result column="bei1" property="bei1" jdbcType="VARCHAR" />
+    <result column="bei2" property="bei2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, content, created, updated, state, auther, autherId, bei1, bei2
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gift.vo.GiftNewsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gift_news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!-- 获得最新前N条数据 -->
+  <select id="selectByExampleForTitle" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    id, title, content, created, updated, state, auther, autherId, bei1, bei2
+    from gift_news
+    order by updated desc
+    limit 0,#{num}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from gift_news
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from gift_news
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gift.vo.GiftNewsExample" >
+    delete from gift_news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gift.vo.GiftNews" >
+    insert into gift_news (id, title, content, 
+      created, updated, state, 
+      auther, autherId, bei1, 
+      bei2)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{created,jdbcType=BIGINT}, #{updated,jdbcType=BIGINT}, #{state,jdbcType=BIGINT}, 
+      #{auther,jdbcType=VARCHAR}, #{autherid,jdbcType=VARCHAR}, #{bei1,jdbcType=VARCHAR}, 
+      #{bei2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gift.vo.GiftNews" >
+    insert into gift_news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="auther != null" >
+        auther,
+      </if>
+      <if test="autherid != null" >
+        autherId,
+      </if>
+      <if test="bei1 != null" >
+        bei1,
+      </if>
+      <if test="bei2 != null" >
+        bei2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=BIGINT},
+      </if>
+      <if test="auther != null" >
+        #{auther,jdbcType=VARCHAR},
+      </if>
+      <if test="autherid != null" >
+        #{autherid,jdbcType=VARCHAR},
+      </if>
+      <if test="bei1 != null" >
+        #{bei1,jdbcType=VARCHAR},
+      </if>
+      <if test="bei2 != null" >
+        #{bei2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gift.vo.GiftNewsExample" resultType="java.lang.Integer" >
+    select count(*) from gift_news
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gift_news
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=BIGINT},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=BIGINT},
+      </if>
+      <if test="record.auther != null" >
+        auther = #{record.auther,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autherid != null" >
+        autherId = #{record.autherid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bei1 != null" >
+        bei1 = #{record.bei1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bei2 != null" >
+        bei2 = #{record.bei2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gift_news
+    set id = #{record.id,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=BIGINT},
+      updated = #{record.updated,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=BIGINT},
+      auther = #{record.auther,jdbcType=VARCHAR},
+      autherId = #{record.autherid,jdbcType=VARCHAR},
+      bei1 = #{record.bei1,jdbcType=VARCHAR},
+      bei2 = #{record.bei2,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gift.vo.GiftNews" >
+    update gift_news
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=BIGINT},
+      </if>
+      <if test="auther != null" >
+        auther = #{auther,jdbcType=VARCHAR},
+      </if>
+      <if test="autherid != null" >
+        autherId = #{autherid,jdbcType=VARCHAR},
+      </if>
+      <if test="bei1 != null" >
+        bei1 = #{bei1,jdbcType=VARCHAR},
+      </if>
+      <if test="bei2 != null" >
+        bei2 = #{bei2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gift.vo.GiftNews" >
+    update gift_news
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      created = #{created,jdbcType=BIGINT},
+      updated = #{updated,jdbcType=BIGINT},
+      state = #{state,jdbcType=BIGINT},
+      auther = #{auther,jdbcType=VARCHAR},
+      autherId = #{autherid,jdbcType=VARCHAR},
+      bei1 = #{bei1,jdbcType=VARCHAR},
+      bei2 = #{bei2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

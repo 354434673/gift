@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gift.mapper.GiftItemCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.gift.vo.GiftItemCategory" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="isparent" property="isparent" jdbcType="BIGINT" />
+    <result column="sortorder" property="sortorder" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="BIGINT" />
+    <result column="uptated" property="uptated" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, parentid, name, isparent, sortorder, state, created, uptated
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gift.vo.GiftItemCategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gift_item_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from gift_item_category
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from gift_item_category
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gift.vo.GiftItemCategoryExample" >
+    delete from gift_item_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gift.vo.GiftItemCategory" >
+    insert into gift_item_category (id, parentid, name, 
+      isparent, sortorder, state, 
+      created, uptated)
+    values (#{id,jdbcType=VARCHAR}, #{parentid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{isparent,jdbcType=BIGINT}, #{sortorder,jdbcType=BIGINT}, #{state,jdbcType=BIGINT}, 
+      #{created,jdbcType=BIGINT}, #{uptated,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gift.vo.GiftItemCategory" >
+    insert into gift_item_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parentid != null" >
+        parentid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="isparent != null" >
+        isparent,
+      </if>
+      <if test="sortorder != null" >
+        sortorder,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="uptated != null" >
+        uptated,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isparent != null" >
+        #{isparent,jdbcType=BIGINT},
+      </if>
+      <if test="sortorder != null" >
+        #{sortorder,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=BIGINT},
+      </if>
+      <if test="uptated != null" >
+        #{uptated,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gift.vo.GiftItemCategoryExample" resultType="java.lang.Integer" >
+    select count(*) from gift_item_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gift_item_category
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        parentid = #{record.parentid,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isparent != null" >
+        isparent = #{record.isparent,jdbcType=BIGINT},
+      </if>
+      <if test="record.sortorder != null" >
+        sortorder = #{record.sortorder,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=BIGINT},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=BIGINT},
+      </if>
+      <if test="record.uptated != null" >
+        uptated = #{record.uptated,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gift_item_category
+    set id = #{record.id,jdbcType=VARCHAR},
+      parentid = #{record.parentid,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      isparent = #{record.isparent,jdbcType=BIGINT},
+      sortorder = #{record.sortorder,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=BIGINT},
+      created = #{record.created,jdbcType=BIGINT},
+      uptated = #{record.uptated,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gift.vo.GiftItemCategory" >
+    update gift_item_category
+    <set >
+      <if test="parentid != null" >
+        parentid = #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isparent != null" >
+        isparent = #{isparent,jdbcType=BIGINT},
+      </if>
+      <if test="sortorder != null" >
+        sortorder = #{sortorder,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=BIGINT},
+      </if>
+      <if test="uptated != null" >
+        uptated = #{uptated,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gift.vo.GiftItemCategory" >
+    update gift_item_category
+    set parentid = #{parentid,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      isparent = #{isparent,jdbcType=BIGINT},
+      sortorder = #{sortorder,jdbcType=BIGINT},
+      state = #{state,jdbcType=BIGINT},
+      created = #{created,jdbcType=BIGINT},
+      uptated = #{uptated,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

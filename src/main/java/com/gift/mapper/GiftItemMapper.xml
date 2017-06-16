@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gift.mapper.GiftItemMapper" >
+  <resultMap id="BaseResultMap" type="com.gift.vo.GiftItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    <result column="titile" property="titile" jdbcType="VARCHAR" />
+    <result column="sell_point" property="sellPoint" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="itemnum" property="itemnum" jdbcType="BIGINT" />
+    <result column="barcode" property="barcode" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="BIGINT" />
+    <result column="updated" property="updated" jdbcType="BIGINT" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="pic2" property="pic2" jdbcType="VARCHAR" />
+    <result column="pic3" property="pic3" jdbcType="VARCHAR" />
+    <result column="pic4" property="pic4" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, category_id, titile, sell_point, price, itemnum, barcode, state, created, updated, 
+    pic, pic2, pic3, pic4
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gift.vo.GiftItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gift_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from gift_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByExampleByCustomerId" resultMap="BaseResultMap" parameterType="com.gift.vo.GiftItemExample" >
+   	select 
+	i.*
+	from
+	customer c1
+	join gift_customer_category c2 on c1.id = c2.customerId
+	join gift_item i on c2.categoryId = i.category_id
+	where c1.id=#{customerId}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from gift_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gift.vo.GiftItemExample" >
+    delete from gift_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gift.vo.GiftItem" >
+    insert into gift_item (id, category_id, titile, 
+      sell_point, price, itemnum, 
+      barcode, state, created, 
+      updated, pic, pic2, 
+      pic3, pic4)
+    values (#{id,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{titile,jdbcType=VARCHAR}, 
+      #{sellPoint,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, #{itemnum,jdbcType=BIGINT}, 
+      #{barcode,jdbcType=BIGINT}, #{state,jdbcType=BIGINT}, #{created,jdbcType=BIGINT}, 
+      #{updated,jdbcType=BIGINT}, #{pic,jdbcType=VARCHAR}, #{pic2,jdbcType=VARCHAR}, 
+      #{pic3,jdbcType=VARCHAR}, #{pic4,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gift.vo.GiftItem" >
+    insert into gift_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="titile != null" >
+        titile,
+      </if>
+      <if test="sellPoint != null" >
+        sell_point,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="itemnum != null" >
+        itemnum,
+      </if>
+      <if test="barcode != null" >
+        barcode,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+      <if test="pic2 != null" >
+        pic2,
+      </if>
+      <if test="pic3 != null" >
+        pic3,
+      </if>
+      <if test="pic4 != null" >
+        pic4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="titile != null" >
+        #{titile,jdbcType=VARCHAR},
+      </if>
+      <if test="sellPoint != null" >
+        #{sellPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="itemnum != null" >
+        #{itemnum,jdbcType=BIGINT},
+      </if>
+      <if test="barcode != null" >
+        #{barcode,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=BIGINT},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="pic2 != null" >
+        #{pic2,jdbcType=VARCHAR},
+      </if>
+      <if test="pic3 != null" >
+        #{pic3,jdbcType=VARCHAR},
+      </if>
+      <if test="pic4 != null" >
+        #{pic4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gift.vo.GiftItemExample" resultType="java.lang.Integer" >
+    select count(*) from gift_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gift_item
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.titile != null" >
+        titile = #{record.titile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellPoint != null" >
+        sell_point = #{record.sellPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemnum != null" >
+        itemnum = #{record.itemnum,jdbcType=BIGINT},
+      </if>
+      <if test="record.barcode != null" >
+        barcode = #{record.barcode,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=BIGINT},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=BIGINT},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=BIGINT},
+      </if>
+      <if test="record.pic != null" >
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic2 != null" >
+        pic2 = #{record.pic2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic3 != null" >
+        pic3 = #{record.pic3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic4 != null" >
+        pic4 = #{record.pic4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gift_item
+    set id = #{record.id,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=VARCHAR},
+      titile = #{record.titile,jdbcType=VARCHAR},
+      sell_point = #{record.sellPoint,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=VARCHAR},
+      itemnum = #{record.itemnum,jdbcType=BIGINT},
+      barcode = #{record.barcode,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=BIGINT},
+      created = #{record.created,jdbcType=BIGINT},
+      updated = #{record.updated,jdbcType=BIGINT},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      pic2 = #{record.pic2,jdbcType=VARCHAR},
+      pic3 = #{record.pic3,jdbcType=VARCHAR},
+      pic4 = #{record.pic4,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gift.vo.GiftItem" >
+    update gift_item
+    <set >
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="titile != null" >
+        titile = #{titile,jdbcType=VARCHAR},
+      </if>
+      <if test="sellPoint != null" >
+        sell_point = #{sellPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="itemnum != null" >
+        itemnum = #{itemnum,jdbcType=BIGINT},
+      </if>
+      <if test="barcode != null" >
+        barcode = #{barcode,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=BIGINT},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="pic2 != null" >
+        pic2 = #{pic2,jdbcType=VARCHAR},
+      </if>
+      <if test="pic3 != null" >
+        pic3 = #{pic3,jdbcType=VARCHAR},
+      </if>
+      <if test="pic4 != null" >
+        pic4 = #{pic4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gift.vo.GiftItem" >
+    update gift_item
+    set category_id = #{categoryId,jdbcType=VARCHAR},
+      titile = #{titile,jdbcType=VARCHAR},
+      sell_point = #{sellPoint,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      itemnum = #{itemnum,jdbcType=BIGINT},
+      barcode = #{barcode,jdbcType=BIGINT},
+      state = #{state,jdbcType=BIGINT},
+      created = #{created,jdbcType=BIGINT},
+      updated = #{updated,jdbcType=BIGINT},
+      pic = #{pic,jdbcType=VARCHAR},
+      pic2 = #{pic2,jdbcType=VARCHAR},
+      pic3 = #{pic3,jdbcType=VARCHAR},
+      pic4 = #{pic4,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByCustomerId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT * from gift_item gi LEFT JOIN gift_customer_category gc
+	on gi.category_id = gc.categoryId
+	LEFT JOIN customer c 
+	ON c.id = gc.customerId where c.state = 0 and gi.state = 1 and c.id = #{customerId,jdbcType=VARCHAR} ORDER BY gc.categoryId
+  </select>
+</mapper>

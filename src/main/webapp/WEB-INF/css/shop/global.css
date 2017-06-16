@@ -1,0 +1,4 @@
+@charset "utf-8";/*!
+ * 2015-10-21 09:11:41
+ * author xiao
+ */ *{padding:0;margin:0}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,input,textarea,p,blockquote,th,td,em{padding:0;margin:0;outline:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0;font-size:12px}address,caption,cite,code,dfn,em,th,var,i{font-weight:normal;font-style:normal}ol,ul,li{list-style:none}h1,h2,h3,h4,h5,h6{font-weight:normal;font-size:100%}.clear{clear:both}.fl{float:left}.fr{float:right}input,img{border:0}article,aside,details,figcaption,figure,footer,header,menu,nav,section,dialog{display:block}html,body{-webkit-text-size-adjust:none}*:focus{outline:0}body{font:14px/1.23 "Microsoft Yahei","Arial",'Tahoma','Simsun';color:#333;text-align:center;overflow-x:auto}a,a:visited{text-decoration:none;color:#666;blr:expression(this.onFocus=this.blur());outline:0;transition:all .25s ease .1s}a:hover{text-decoration:none}

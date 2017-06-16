@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gift.mapper.CustomerAndCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.gift.vo.CustomerAndCategory" >
+    <result column="customerId" property="customerId" jdbcType="VARCHAR" />
+    <result column="categoryId" property="categoryId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com.gift.vo.CustomerAndCategory" >
+    select customerId, categoryId from gift_customer_category where customerId = #{customerId}
+  </select>
+  
+  <select id="queryOne" resultMap="BaseResultMap" parameterType="com.gift.vo.CustomerAndCategory" >
+    select customerId, categoryId from gift_customer_category where customerId = #{customerId} and categoryId = #{categoryId}
+  </select>
+  
+  <insert id="addCustomerAndCategory" parameterType="com.gift.vo.CustomerAndCategory" >
+  	insert into gift_customer_category (customerId, categoryId) 
+  	values (#{customerId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR})
+  </insert>
+</mapper>

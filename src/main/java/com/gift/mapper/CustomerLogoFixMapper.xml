@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gift.mapper.CustomerLogoFixMapper" >
+  <resultMap id="BaseResultMap" type="com.gift.vo.CustomerLogoFix" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="customerid" property="customerid" jdbcType="VARCHAR" />
+    <result column="itemid" property="itemid" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="BIGINT" />
+    <result column="updated" property="updated" jdbcType="BIGINT" />
+    <result column="bei1" property="bei1" jdbcType="VARCHAR" />
+    <result column="bei2" property="bei2" jdbcType="VARCHAR" />
+    <!-- 表连接 -->
+    <association property="giftItem" javaType="com.gift.vo.GiftItem">
+    		<id column="id" property="id"/>
+			<!-- 普通属性 -->
+			<result column="titile" property="titile"/>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, pic, customerid, itemid, type, state, created, updated, bei1, bei2
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gift.vo.CustomerLogoFixExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_logo_fix
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_logo_fix
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- 联合查询 -->
+  <select id="selectByExampleAndItemAndCustomer" resultMap="BaseResultMap" parameterType="com.gift.vo.CustomerLogoFixExample" >
+	SELECT
+		c.*, i.titile
+	FROM
+		customer_logo_fix c
+	JOIN gift_item i ON c.itemid = i.id
+	    where c.customerId = #{customerId} and c.state=#{state} order by c.created desc limit #{begin},#{pageNum}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from customer_logo_fix
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gift.vo.CustomerLogoFixExample" >
+    delete from customer_logo_fix
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gift.vo.CustomerLogoFix" >
+    insert into customer_logo_fix (id, pic, customerid, 
+      itemid, type, state, 
+      created, updated, bei1, 
+      bei2)
+    values (#{id,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
+      #{itemid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{state,jdbcType=BIGINT}, 
+      #{created,jdbcType=BIGINT}, #{updated,jdbcType=BIGINT}, #{bei1,jdbcType=VARCHAR}, 
+      #{bei2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gift.vo.CustomerLogoFix" >
+    insert into customer_logo_fix
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+      <if test="customerid != null" >
+        customerid,
+      </if>
+      <if test="itemid != null" >
+        itemid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="bei1 != null" >
+        bei1,
+      </if>
+      <if test="bei2 != null" >
+        bei2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="itemid != null" >
+        #{itemid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=BIGINT},
+      </if>
+      <if test="bei1 != null" >
+        #{bei1,jdbcType=VARCHAR},
+      </if>
+      <if test="bei2 != null" >
+        #{bei2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gift.vo.CustomerLogoFixExample" resultType="java.lang.Integer" >
+    select count(*) from customer_logo_fix
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_logo_fix
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic != null" >
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerid != null" >
+        customerid = #{record.customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemid != null" >
+        itemid = #{record.itemid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=BIGINT},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=BIGINT},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=BIGINT},
+      </if>
+      <if test="record.bei1 != null" >
+        bei1 = #{record.bei1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bei2 != null" >
+        bei2 = #{record.bei2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_logo_fix
+    set id = #{record.id,jdbcType=VARCHAR},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      customerid = #{record.customerid,jdbcType=VARCHAR},
+      itemid = #{record.itemid,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=BIGINT},
+      created = #{record.created,jdbcType=BIGINT},
+      updated = #{record.updated,jdbcType=BIGINT},
+      bei1 = #{record.bei1,jdbcType=VARCHAR},
+      bei2 = #{record.bei2,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gift.vo.CustomerLogoFix" >
+    update customer_logo_fix
+    <set >
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="customerid != null" >
+        customerid = #{customerid,jdbcType=VARCHAR},
+      </if>
+      <if test="itemid != null" >
+        itemid = #{itemid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=BIGINT},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=BIGINT},
+      </if>
+      <if test="bei1 != null" >
+        bei1 = #{bei1,jdbcType=VARCHAR},
+      </if>
+      <if test="bei2 != null" >
+        bei2 = #{bei2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gift.vo.CustomerLogoFix" >
+    update customer_logo_fix
+    set pic = #{pic,jdbcType=VARCHAR},
+      customerid = #{customerid,jdbcType=VARCHAR},
+      itemid = #{itemid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      state = #{state,jdbcType=BIGINT},
+      created = #{created,jdbcType=BIGINT},
+      updated = #{updated,jdbcType=BIGINT},
+      bei1 = #{bei1,jdbcType=VARCHAR},
+      bei2 = #{bei2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.lang.String">
+  		SELECT customer_logo_fix.* FROM customer_logo_fix 
+		LEFT JOIN customer  on customer_logo_fix.customerid = customer.id
+		LEFT JOIN gift_item on customer_logo_fix.itemid = gift_item.id
+		where customer_logo_fix.state = 0 and customer.`name` LIKE #{customerNameOrItemName} 
+		OR gift_item.titile LIKE #{customerNameOrItemName} ORDER BY customer_logo_fix.customerid
+  </select>
+</mapper>
